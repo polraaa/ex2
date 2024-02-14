@@ -13,6 +13,8 @@ public class PrimaEmpleat {
     private static final int PRIMA_DIRECTIU_N = 100;
     private static final int PRIMA_SUPERIOR_S = 600;
     private static final int PRIMA_SUPERIOR_N = 150;
+    private static final String MISSATGE_ERROR_ANTIGUITAT = "La antiguitat ha de ser un nombre entre 0 i 999";
+    private static final String MISSATGE_ERROR_CODI = "El codi del càrrec ha de ser 'S' o 'N'";
 
     public static void main(String[] args) {
         PrimaEmpleat empleat = new PrimaEmpleat("Elvira", "S", 11);
@@ -27,23 +29,26 @@ public class PrimaEmpleat {
 
     public void calcularPrima() {
         int prima = 0;
-        if (antiguitat >= 0 && antiguitat < 1000) {
+        if (antiguitatValida()) {
             if ("S".equals(codiDirectiu)) {
                 prima = (antiguitat > 12) ? PRIMA_SUPERIOR_S : PRIMA_DIRECTIU_S;
             } else if ("N".equals(codiDirectiu)) {
                 prima = (antiguitat > 12) ? PRIMA_SUPERIOR_N : PRIMA_DIRECTIU_N;
             } else {
-                System.out.println("El codi del càrrec ha de ser 'S' o 'N'");
+                System.out.println(MISSATGE_ERROR_CODI);
                 return;
             }
-            System.out.println("La prima que li correspon a " + nom + " és de " + prima + " Euros");
+            mostrarPrima(prima);
         } else {
-            System.out.println("La antiguitat ha de ser un nombre entre 0 i 999");
+            System.out.println(MISSATGE_ERROR_ANTIGUITAT);
         }
     }
 
-    @Override
-    public String toString() {
-        return "Empleat: " + nom + ", Codi Directiu: " + codiDirectiu + ", Antiguitat: " + antiguitat;
+    private boolean antiguitatValida() {
+        return antiguitat >= 0 && antiguitat < 1000;
+    }
+
+    private void mostrarPrima(int prima) {
+        System.out.println("La prima que li correspon a " + nom + " és de " + prima + " Euros");
     }
 }
